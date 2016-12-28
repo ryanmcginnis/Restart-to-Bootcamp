@@ -1,5 +1,5 @@
 # Restart-to-Bootcamp
-Uses Automator to reboot system to Bootcamp.
+Uses Automator to reboot system to Bootcamp. Made under macOS Sierra 10.12.2.
 
 ## Install as Finder Service
 
