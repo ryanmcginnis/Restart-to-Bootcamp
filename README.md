@@ -1,4 +1,7 @@
 # Restart to Bootcamp
+
+**Note:** Not actively maintained, but updated by community contribution as of October 2020.
+
 Uses Automator to reboot system to Bootcamp. Made under macOS Sierra 10.12.2.
 Tested under macOS Catalina 10.15.7 with TouchID bypass
 
