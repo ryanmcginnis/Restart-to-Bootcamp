@@ -9,11 +9,11 @@
 
 ## Install as Finder Service
 
+1. From a shell (Terminal) window, execute `brew install cliclick` (note: if you need Homebrew installed go to <https://brew.sh/>)
 1. Download "Restart to Bootcamp" workflow file.
 1. Right-click the file. Click _Open with... -> Automator_.
-1. Change `thePWD` to your adminstrator password (edit the `theGRP` and `theCLI` if needed). Save the workflow.
+1. Change `thePWD` to your adminstrator password (also edit `theCLI` if needed). Save the workflow.
 1. Right-click file again. Click _Open with... -> _Automater Installer_.
-1. From a shell (Terminal) window, execute `brew install cliclick` (note: you should already have Homebrew installed from <https://brew.sh/>)
 
 **Ready to test:**  You can now select "Restart to Bootcamp" from the _Finder > Services..._ menu.  If you don't see it, check _System Preferences > Keyboard > Shortcuts > Services > General_ (check "Restart to Bootcamp")
 
