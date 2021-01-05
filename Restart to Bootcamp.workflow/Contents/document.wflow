@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>492</string>
+	<string>509</string>
 	<key>AMApplicationVersion</key>
 	<string>2.10</string>
 	<key>AMDocumentVersion</key>
@@ -51,7 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>-- Original script from Ryan McGinnis (https://github.com/ryanmcginnis/Restart-to-Bootcamp)-- Updated with optimizations from Yvan Koenig (https://macscripter.net/viewtopic.php?pid=202042#p202042)-- Update to add TouchID bypass added by Keith Willowhawk and added to both original reference sites.set theBundle to ((path to library folder from system domain as string) &amp; "PreferencePanes:StartupDisk.prefPane:") as «class furl»set thePane to localized string "CFBundleName" from table "InfoPlist" in bundle theBundleset thePW to "YOUR_733T_PWD_H3R3" -- Edit to fit your needstell application "System Preferences"	reveal anchor "StartupSearchGroup" of pane id "com.apple.preference.startupdisk"	activateend telltell application "System Events" to tell process "System Preferences"	repeat until exists window thePane		delay 0.1	end repeat	tell window thePane		delay 0.2		click button 2		repeat until exists sheet 1			delay 0.1		end repeat		--TouchID Bypass--BEGIN		if the title of UI element 5 of sheet 1 is "Use Password…" then			click UI element 5 of sheet 1			delay 1		end if		--TouchID Bypass--END		tell sheet 1			set value of text field 1 to thePW			click button -1		end tell		repeat until not (exists sheet 1)			delay 0.1		end repeat		tell splitter group 1			tell group 1				tell scroll area 1					tell radio group 1						click radio button 1 -- the radio button pointing upon Windows volume					end tell				end tell			end tell		end tell		delay 0.2		click button 1		repeat until exists sheet 1			delay 0.1		end repeat		keystroke return	end tellend tell</string>
+					<string>-- Original script from Ryan McGinnis (https://github.com/ryanmcginnis/Restart-to-Bootcamp)-- Updated with optimizations from Yvan Koenig (https://macscripter.net/viewtopic.php?pid=202042#p202042)-- Updated to add TouchID bypass added by Keith Willowhawk (https://github.com/mOOky8D) and added to both original reference sites.-- Updated for Big Sur and improved timing and contingency handling.  Added dependency on cliclick (https://github.com/BlueM/cliclick)-- Updated with better target disk selection from krazzer (https://github.com/krazzer)-- CHANGE THESE VARIABLES --set thePWD to "YOUR_733T_PWD_H3R3" -- Your account password that can authorize an elevated requestset theTGT to "Windows" -- The name of the BOOTCAMP partition in your disk selectorset theCLI to "/usr/local/bin/cliclick" -- The explicit path to cliclick.  Modify if you installed the binary elsewhere-- THE REST SHOULD WORK W/O MODIFICATION --tell application "System Preferences"	reveal anchor "StartupSearchGroup" of pane id "com.apple.preference.startupdisk"	activateend telltell application "System Events" to tell process "System Preferences"	repeat until exists window "Startup Disk" --waits until the System Preferences --&gt; Startup Disk window is active		delay 0.5	end repeat	set position of window "Startup Disk" to {100, 100} --ensures cliclick gets positive coordinates (multimonitor coordinates can sometimes be negative and cliclick doesn't like that)		tell window "Startup Disk"		delay 0.5		if exists UI element "Click the lock to make changes." then --checks to see if authorization is needed			click UI element "Click the lock to make changes."			repeat until exists sheet 1 --waits for the TouchID/Password window to pop up				delay 0.5			end repeat			if the title of UI element 5 of sheet 1 is "Use Password…" then --bypass TouchID if it's asking				click UI element 5 of sheet 1				delay 0.5			end if			tell sheet 1				set value of text field 1 to thePWD --your admin elevation creds pop in here				click button -1			end tell			repeat until not (exists sheet 1) --wait until the password is accepted				delay 0.5			end repeat		end if		repeat until exists UI element "Click the lock to prevent further changes." --waits until the selector is unlocked			delay 0.5		end repeat		repeat until exists group 1 of list 1 of scroll area 1 --Wait until a bootable drive exists			delay 0.1		end repeat		set systems to every group of list 1 of scroll area 1		repeat with system in systems --Find the right group to click			set systemOs to value of static text 2 of system			if systemOs = theTGT then				set systemToBootTo to system			end if		end repeat		tell systemToBootTo --gets the screen coordinates of the target disk			set p to position			set s to size		end tell		set xTarget to (item 1 of p) + (item 1 of s) / 2 --sets the click target to the middle of the target disk icon		set yTarget to (item 2 of p) + (item 2 of s) / 2		set xTarget to xTarget as integer		set yTarget to yTarget as integer		set clickString to theCLI &amp; " c:" &amp; xTarget &amp; "," &amp; yTarget as string		do shell script clickString --calls the mouse click helper app		delay 0.5		click button "Restart…" --initiates the reboot		repeat until exists sheet 1 --waits until the confirmation prompt appears			delay 1		end repeat		keystroke return --confirms reboot	end tellend tell</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,14 +105,14 @@ end run</string>
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<true/>
+				<integer>1</integer>
 				<key>location</key>
-				<string>439.000000:980.000000</string>
+				<string>635.500000:1050.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<true/>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>connectors</key>
